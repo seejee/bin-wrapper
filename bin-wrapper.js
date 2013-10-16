@@ -109,6 +109,10 @@ BinWrapper.prototype._download = function (src, dest, opts) {
     var get = download(src, dest, opts);
 
     get.on('response', function (res) {
+        if(!process.stdout.isTTY) {
+            return;
+        }
+
         var len = parseInt(res.headers['content-length'], 10);
         var bar = new ProgressBar('  ' + path.basename(src) + ': downloading [:bar] :percent :etas', {
             complete: '=',
